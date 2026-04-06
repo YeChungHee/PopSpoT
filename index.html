@@ -103,7 +103,7 @@
     border-radius: 8px;
   }
 
-  /* HEADER — Apple-style */
+  /* HEADER — Frosted glass always on */
   header {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -112,14 +112,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background var(--dur-normal) var(--ease),
-                backdrop-filter var(--dur-normal) var(--ease);
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: saturate(180%) blur(24px);
+    -webkit-backdrop-filter: saturate(180%) blur(24px);
+    border-bottom: 0.5px solid rgba(255,255,255,0.06);
+    transition: background var(--dur-normal) var(--ease);
   }
   header.scrolled {
-    background: rgba(0,0,0,0.72);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+    background: rgba(0,0,0,0.75);
+    border-bottom-color: rgba(255,255,255,0.1);
   }
 
   .header-inner {
