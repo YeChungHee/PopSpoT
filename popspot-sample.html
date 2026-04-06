@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POPSPOT — Apple Style Sample</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Apple-inspired dark palette */
+    --bg: #000000;
+    --bg-secondary: #1d1d1f;
+    --bg-tertiary: #2d2d2f;
+    --bg-elevated: rgba(29,29,31,0.72);
+
+    --text-primary: #f5f5f7;
+    --text-secondary: #86868b;
+    --text-tertiary: #6e6e73;
+
+    /* Brand identity */
+    --lime: #c8ff00;
+    --lime-soft: rgba(200,255,0,0.10);
+    --lime-dark: #a3d400;
+
+    /* Accents */
+    --red: #ff3b3b;
+    --blue: #2997ff;
+    --gold: #f5c842;
+    --purple: #bf5af2;
+    --orange: #ff9f0a;
+    --pink: #ff375f;
+    --teal: #64d2ff;
+
+    /* Typography scale */
+    --text-hero: clamp(48px, 7vw, 80px);
+    --text-display: clamp(32px, 5vw, 56px);
+    --text-title: clamp(22px, 3vw, 36px);
+    --text-headline: clamp(17px, 2vw, 22px);
+    --text-body: 17px;
+    --text-caption: 14px;
+    --text-micro: 12px;
+
+    /* Spacing (8px grid) */
+    --space-xs: 8px;
+    --space-sm: 16px;
+    --space-md: 24px;
+    --space-lg: 40px;
+    --space-xl: 64px;
+    --space-2xl: 96px;
+    --section-pad: clamp(80px, 12vh, 140px);
+
+    /* Layout */
+    --max-w: 980px;
+    --max-w-wide: 1200px;
+    --radius: 20px;
+    --radius-sm: 12px;
+
+    /* Motion */
+    --ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --dur-fast: 0.2s;
+    --dur-normal: 0.4s;
+    --dur-slow: 0.8s;
+
+    --font: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ============================================
+     HEADER — Apple-style minimal sticky nav
+     ============================================ */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--dur-normal) var(--ease),
+                backdrop-filter var(--dur-normal) var(--ease);
+  }
+
+  header.scrolled {
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 0.5px solid rgba(255,255,255,0.08);
+  }
+
+  .header-inner {
+    width: 100%;
+    max-width: var(--max-w);
+    padding: 0 var(--space-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+  }
+  .logo em { font-style: normal; color: var(--lime); }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: var(--text-caption);
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color var(--dur-fast);
+  }
+  .nav-links a:hover { color: var(--text-primary); }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .icon-btn {
+    width: 36px; height: 36px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--dur-fast);
+  }
+  .icon-btn:hover { color: var(--text-primary); background: rgba(255,255,255,0.06); }
+  .icon-btn svg { width: 18px; height: 18px; }
+
+  /* ============================================
+     HERO — Full viewport, Apple product-page style
+     ============================================ */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-2xl) var(--space-md);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,255,0,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 20% 80%, rgba(41,151,255,0.05) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(191,90,242,0.05) 0%, transparent 50%);
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+  }
+
+  .hero-overline {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: var(--space-sm);
+  }
+
+  .hero-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    background: rgba(255,59,59,0.12);
+    border: 1px solid rgba(255,59,59,0.25);
+    border-radius: 100px;
+    font-size: var(--text-micro);
+    font-weight: 700;
+    color: var(--red);
+    margin-bottom: var(--space-md);
+  }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: blink 1.2s infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero h1 {
+    font-size: var(--text-hero);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: var(--space-md);
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-location {
+    font-size: var(--text-body);
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .hero-countdown {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    color: var(--lime);
+    font-variant-numeric: tabular-nums;
+  }
+  .hero-countdown span {
+    font-size: var(--text-caption);
+    color: var(--text-tertiary);
+    letter-spacing: 0;
+    margin: 0 4px;
+  }
+
+  .hero-dots {
+    display: flex;
+    gap: 8px;
+    margin-top: var(--space-xl);
+  }
+  .hero-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--text-tertiary);
+    border: none;
+    cursor: pointer;
+    transition: all var(--dur-fast);
+    padding: 0;
+  }
+  .hero-dot.active {
+    background: var(--lime);
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* ============================================
+     SECTION PATTERNS — Consistent Apple layout
+     ============================================ */
+  .section {
+    padding: var(--section-pad) var(--space-md);
+  }
+
+  .section-inner {
+    max-width: var(--max-w);
+    margin: 0 auto;
+  }
+
+  .section-wide {
+    max-width: var(--max-w-wide);
+    margin: 0 auto;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .overline {
+    font-size: var(--text-caption);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--lime);
+    margin-bottom: var(--space-xs);
+  }
+
+  .section-title {
+    font-size: var(--text-display);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-primary);
+  }
+
+  .section-subtitle {
+    font-size: var(--text-body);
+    color: var(--text-secondary);
+    margin-top: var(--space-sm);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.5;
+  }
+
+  /* ============================================
+     CATEGORY PILLS — Color dots instead of emoji
+     ============================================ */
+  .cat-row {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 0 var(--space-md);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .cat-row::-webkit-scrollbar { display: none; }
+
+  .cat-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: var(--text-caption);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--dur-fast);
+    white-space: nowrap;
+    font-family: var(--font);
+  }
+  .cat-pill:hover {
+    background: var(--text-primary);
+    color: var(--bg);
+    border-color: transparent;
+  }
+  .cat-pill:hover .cat-icon { opacity: 0.7; }
+
+  .cat-icon {
+    width: 18px; height: 18px;
+    flex-shrink: 0;
+    opacity: 0.4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cat-pill:hover .cat-icon { opacity: 0.6; }
+  .cat-icon svg { width: 100%; height: 100%; }
+
+  /* ============================================
+     POPUP CARDS — Larger, cleaner, Apple-style
+     ============================================ */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  @media (min-width: 768px) {
+    .card-grid { grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+  }
+
+  .popup-card {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform var(--dur-normal) var(--ease),
+                box-shadow var(--dur-normal) var(--ease);
+  }
+  .popup-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+
+  .card-visual {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .brand-mono {
+    width: 64px; height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -1px;
+    overflow: hidden;
+  }
+  .brand-mono img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 10px;
+    filter: brightness(0) invert(1);
+  }
+  .brand-mono img.no-invert {
+    filter: none;
+    padding: 0;
+    object-fit: cover;
+  }
+
+  /* Hero brand logo */
+  .hero-brand-logo {
+    width: 72px; height: 72px;
+    margin-bottom: var(--space-md);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+  }
+  .hero-brand-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 14px;
+    filter: brightness(0) invert(1);
+  }
+
+  .card-status {
+    position: absolute;
+    top: 12px; left: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+  }
+  .status-live { background: rgba(255,59,59,0.2); color: var(--red); }
+  .status-hot { background: rgba(255,159,10,0.2); color: var(--orange); }
+  .status-new { background: rgba(200,255,0,0.15); color: var(--lime); }
+  .status-soon { background: rgba(100,210,255,0.15); color: var(--teal); }
+
+  .card-bookmark {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--dur-fast);
+  }
+  .card-bookmark:hover { color: var(--text-primary); background: rgba(0,0,0,0.6); }
+  .card-bookmark.active { color: var(--lime); }
+  .card-bookmark svg { width: 16px; height: 16px; }
+
+  .card-body {
+    padding: var(--space-sm);
+  }
+
+  .card-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .card-meta {
+    font-size: var(--text-micro);
+    color: var(--text-tertiary);
+    line-height: 1.5;
+  }
+
+  /* ============================================
+     BRAND INDEX — Clean ranking list
+     ============================================ */
+  .rank-section {
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    padding: var(--space-lg);
+  }
+
+  .rank-toggle {
+    display: flex;
+    gap: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    padding: 3px;
+    margin-bottom: var(--space-lg);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .rank-toggle-btn {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: var(--text-caption);
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: transparent;
+    cursor: pointer;
+    transition: all var(--dur-fast);
+    font-family: var(--font);
+  }
+  .rank-toggle-btn.active {
+    background: var(--text-primary);
+    color: var(--bg);
+  }
+
+  .rank-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    transition: background var(--dur-fast);
+  }
+  .rank-item:last-child { border-bottom: none; }
+  .rank-item:hover { background: rgba(255,255,255,0.02); margin: 0 -16px; padding-left: 16px; padding-right: 16px; border-radius: 12px; }
+
+  .rank-num {
+    width: 28px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .rank-1 { color: var(--gold); }
+  .rank-2 { color: #c0c0c0; }
+  .rank-3 { color: #cd7f32; }
+
+  .rank-logo {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .rank-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+    filter: brightness(0) invert(1);
+  }
+
+  .rank-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .rank-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .rank-cat {
+    font-size: var(--text-micro);
+    color: var(--text-tertiary);
+  }
+
+  .rank-score {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .rank-val {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--lime);
+    font-variant-numeric: tabular-nums;
+  }
+  .rank-delta {
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .delta-up { color: var(--lime); }
+  .delta-down { color: var(--red); }
+  .delta-same { color: var(--text-tertiary); }
+
+  /* ============================================
+     BOTTOM NAV — Minimal icon bar
+     ============================================ */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 100;
+    height: 56px;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-top: 0.5px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    background: none;
+    border: none;
+    color: var(--text-tertiary);
+    font-size: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 12px;
+    transition: color var(--dur-fast);
+    font-family: var(--font);
+  }
+  .nav-item:hover { color: var(--text-secondary); }
+  .nav-item.active { color: var(--lime); }
+  .nav-item svg { width: 22px; height: 22px; }
+
+  /* ============================================
+     SCROLL REVEAL ANIMATION
+     ============================================ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity var(--dur-slow) var(--ease),
+                transform var(--dur-slow) var(--ease);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal[data-delay="1"] { transition-delay: 0.1s; }
+  .reveal[data-delay="2"] { transition-delay: 0.2s; }
+  .reveal[data-delay="3"] { transition-delay: 0.3s; }
+  .reveal[data-delay="4"] { transition-delay: 0.4s; }
+
+  /* ============================================
+     SEPARATOR
+     ============================================ */
+  .section-sep {
+    width: 100%;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  footer {
+    text-align: center;
+    padding: var(--space-xl) var(--space-md) calc(var(--space-xl) + 70px);
+    color: var(--text-tertiary);
+    font-size: var(--text-micro);
+    line-height: 1.8;
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; }
+  footer a:hover { color: var(--text-primary); }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .nav-links { display: none; }
+    .cat-row { justify-content: flex-start; flex-wrap: nowrap; }
+  }
+  @media (min-width: 1024px) {
+    .bottom-nav { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== HEADER ==================== -->
+<header id="header">
+  <div class="header-inner">
+    <div class="logo">POP<em>SPOT</em></div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#">트렌드</a></li>
+        <li><a href="#">브랜드</a></li>
+        <li><a href="#">팝업</a></li>
+        <li><a href="#">분석</a></li>
+        <li><a href="#">커뮤니티</a></li>
+      </ul>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="검색">
+        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="알림">
+        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <button class="icon-btn" aria-label="프로필">
+        <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="heroSection">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-status">
+      <div class="live-dot"></div>
+      LIVE NOW
+    </div>
+    <div class="hero-brand-logo"><img src="https://logo.clearbit.com/nike.com" alt="Nike"></div>
+    <div class="hero-overline">성수동 팝업</div>
+    <h1>나이키<br>에어맥스 팝업</h1>
+    <p class="hero-location">서울 성수동 · 2025.04.01 – 04.15</p>
+    <div class="hero-countdown">
+      <span>남은 시간</span> 23<span>:</span>14<span>:</span>07
+    </div>
+    <div class="hero-dots">
+      <button class="hero-dot active"></button>
+      <button class="hero-dot"></button>
+      <button class="hero-dot"></button>
+      <button class="hero-dot"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CATEGORIES ==================== -->
+<div class="section" style="padding-top: 40px; padding-bottom: 20px;">
+  <div class="cat-row">
+    <button class="cat-pill">전체</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M8 2h8l-1 4h-6L8 2z"/><path d="M9 6c-2 3-4 5-4 10 0 2 1 4 3 4h8c2 0 3-2 3-4 0-5-2-7-4-10H9z" stroke-linejoin="round"/><path d="M10 6c0 1 .9 2 2 2s2-1 2-2"/></svg></span> 의류</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.4" viewBox="0 0 24 24" stroke-linejoin="round" stroke-linecap="round"><path d="M15 3c-1 0-2 .5-2.5 1.5L11 7.5 9.5 9C8.5 10 7 11 5.5 11.5L3.5 12c-1 .4-1.5 1.2-1.5 2.2V16c0 .6.2 1.1.5 1.5l.5.5h18c.6 0 1-.4 1-1v-2c0-1-.5-2-1.5-2.5L18 11V7c0-1-.5-2-1.2-2.7C16 3.5 15.5 3 15 3z"/><path d="M2.5 16h19"/><path d="M11 7.5l2 .5M9.5 9.5l2 .5M8 11.5l1.5.3" opacity=".5"/><path d="M17 5c.8.5 1.2 1.2 1.2 2"/></svg></span> 신발</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke-linejoin="round"/><path d="M6 1v3M10 1v3M14 1v3" stroke-linecap="round"/></svg></span> 푸드</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="10" r="6"/><circle cx="12" cy="10" r="4" stroke-dasharray="1 2"/><path d="M12 16v5" stroke-linecap="round" stroke-width="2.5"/><path d="M10 21h4" stroke-linecap="round" stroke-width="1.5"/></svg></span> 뷰티</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-linejoin="round"/><path d="M9 22V12h6v10"/></svg></span> 라이프</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4" stroke-linecap="round"/></svg></span> 테크</button>
+    <button class="cat-pill"><span class="cat-icon"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1" stroke-linejoin="round"/><rect x="5.5" y="5.5" width="13" height="13" rx="0.5"/><path d="M5.5 14l4-4 3 3 2.5-2.5L18.5 14" stroke-linejoin="round" stroke-linecap="round"/><circle cx="9" cy="9" r="1.5"/></svg></span> 아트</button>
+  </div>
+</div>
+
+<!-- ==================== POPUP GRID ==================== -->
+<section class="section">
+  <div class="section-wide">
+    <div class="section-header reveal">
+      <p class="overline">NOW OPEN</p>
+      <h2 class="section-title">내 주변 팝업스토어</h2>
+      <p class="section-subtitle">지금 가까운 곳에서 만날 수 있는 브랜드 경험</p>
+    </div>
+
+    <div class="card-grid">
+      <!-- Card 1 -->
+      <div class="popup-card reveal" data-delay="1">
+        <div class="card-visual" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">
+          <span class="card-status status-live">LIVE</span>
+          <button class="card-bookmark"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <div class="brand-mono" style="background: linear-gradient(135deg, #ff6b35, #f7c59f);"><img src="https://logo.clearbit.com/nike.com" alt="Nike"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-name">나이키 에어맥스 팝업</p>
+          <p class="card-meta">성수동 · 04.01 – 04.15</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="popup-card reveal" data-delay="2">
+        <div class="card-visual" style="background: linear-gradient(135deg, #0f3443, #34e89e20);">
+          <span class="card-status status-hot">HOT</span>
+          <button class="card-bookmark"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <div class="brand-mono" style="background: linear-gradient(135deg, #00704A, #1E3932);"><img src="https://logo.clearbit.com/starbucks.com" alt="Starbucks"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-name">스타벅스 리저브 팝업</p>
+          <p class="card-meta">강남역 · 04.05 – 04.20</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="popup-card reveal" data-delay="3">
+        <div class="card-visual" style="background: linear-gradient(135deg, #1a1a2e, #e94560);">
+          <span class="card-status status-new">NEW</span>
+          <button class="card-bookmark"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <div class="brand-mono" style="background: linear-gradient(135deg, #1a1a1a, #4a4a4a);"><img src="https://logo.clearbit.com/gucci.com" alt="Gucci"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-name">구찌 가든 팝업</p>
+          <p class="card-meta">청담동 · 04.10 – 04.25</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="popup-card reveal" data-delay="1">
+        <div class="card-visual" style="background: linear-gradient(135deg, #232526, #414345);">
+          <span class="card-status status-soon">SOON</span>
+          <button class="card-bookmark"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <div class="brand-mono" style="background: linear-gradient(135deg, #333333, #555555);"><img src="https://logo.clearbit.com/apple.com" alt="Apple"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-name">애플 비전프로 체험관</p>
+          <p class="card-meta">여의도 · 04.15 – 05.01</p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="popup-card reveal" data-delay="2">
+        <div class="card-visual" style="background: linear-gradient(135deg, #2d1b69, #6c63ff);">
+          <button class="card-bookmark"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <div class="brand-mono" style="background: linear-gradient(135deg, #c9b8a8, #8b7355);"><img src="https://logo.clearbit.com/dior.com" alt="Dior"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-name">디올 뷰티 팝업</p>
+          <p class="card-meta">한남동 · 진행중</p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="popup-card reveal" data-delay="3">
+        <div class="card-visual" style="background: linear-gradient(135deg, #1e3c72, #2a5298);">
+          <span class="card-status status-live">LIVE</span>
+          <button class="card-bookmark"><svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
+          <div class="brand-mono" style="background: linear-gradient(135deg, #4facfe, #00f2fe);"><img src="https://logo.clearbit.com/bluebottlecoffee.com" alt="Blue Bottle"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-name">블루보틀 한정 팝업</p>
+          <p class="card-meta">삼청동 · 04.03 – 04.18</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ==================== BRAND INDEX ==================== -->
+<section class="section">
+  <div class="section-inner">
+    <div class="section-header reveal">
+      <p class="overline">BRAND INDEX</p>
+      <h2 class="section-title">브랜드 지수</h2>
+      <p class="section-subtitle">소비자 관심도 기반 실시간 브랜드 랭킹</p>
+    </div>
+
+    <div class="rank-section reveal">
+      <div class="rank-toggle">
+        <button class="rank-toggle-btn active">주간</button>
+        <button class="rank-toggle-btn">월간</button>
+      </div>
+
+      <div id="rankList">
+        <!-- Rank items rendered here -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ==================== PLACEHOLDER: More sections follow ==================== -->
+<section class="section" style="min-height: 60vh;">
+  <div class="section-inner" style="text-align:center;">
+    <div class="reveal">
+      <p class="overline">COMING NEXT</p>
+      <h2 class="section-title">더 많은 섹션이<br>이어집니다</h2>
+      <p class="section-subtitle">브랜드 탐색, 핫 아이템, 쇼핑, 세그먼테이션 분석,<br>명품 브랜드, 콜라보 히스토리, 지도, 커뮤니티, 트렌드 차트</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 12px;">POP<span style="color:var(--lime);">SPOT</span></p>
+  <p><a href="#">이용약관</a> &nbsp;·&nbsp; <a href="#">개인정보처리방침</a> &nbsp;·&nbsp; <a href="#">고객센터</a></p>
+  <p style="margin-top: 8px;">&copy; 2025 POPSPOT. All rights reserved.</p>
+</footer>
+
+<!-- ==================== BOTTOM NAV ==================== -->
+<nav class="bottom-nav">
+  <button class="nav-item active">
+    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke-linejoin="round"/></svg>
+    <span>홈</span>
+  </button>
+  <button class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    <span>지도</span>
+  </button>
+  <button class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+    <span>브랜드</span>
+  </button>
+  <button class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke-linejoin="round"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    <span>쇼핑</span>
+  </button>
+  <button class="nav-item">
+    <svg fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0" stroke-linecap="round"/></svg>
+    <span>MY</span>
+  </button>
+</nav>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script>
+// Header scroll effect
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive: true });
+
+// Scroll reveal animation
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+
+// Hero dot interaction
+document.querySelectorAll('.hero-dot').forEach((dot, i) => {
+  dot.addEventListener('click', () => {
+    document.querySelectorAll('.hero-dot').forEach(d => d.classList.remove('active'));
+    dot.classList.add('active');
+  });
+});
+
+// Rank toggle interaction
+document.querySelectorAll('.rank-toggle-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.rank-toggle-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// Brand ranking data & render
+const rankData = [
+  { name: '나이키', cat: '스포츠웨어', score: 94.2, delta: 2.1, color: 'linear-gradient(135deg, #ff6b35, #f7c59f)', logo: 'https://logo.clearbit.com/nike.com' },
+  { name: '아디다스', cat: '스포츠웨어', score: 91.8, delta: 1.5, color: 'linear-gradient(135deg, #333, #555)', logo: 'https://logo.clearbit.com/adidas.com' },
+  { name: '구찌', cat: '럭셔리', score: 89.5, delta: -0.3, color: 'linear-gradient(135deg, #1a1a1a, #4a4a4a)', logo: 'https://logo.clearbit.com/gucci.com' },
+  { name: '스타벅스', cat: '카페·음료', score: 88.1, delta: 3.2, color: 'linear-gradient(135deg, #00704A, #1E3932)', logo: 'https://logo.clearbit.com/starbucks.com' },
+  { name: '애플', cat: '테크', score: 87.6, delta: 0, color: 'linear-gradient(135deg, #333, #555)', logo: 'https://logo.clearbit.com/apple.com' },
+  { name: '디올', cat: '뷰티·럭셔리', score: 86.3, delta: 1.8, color: 'linear-gradient(135deg, #c9b8a8, #8b7355)', logo: 'https://logo.clearbit.com/dior.com' },
+  { name: '블루보틀', cat: '카페', score: 85.0, delta: 4.1, color: 'linear-gradient(135deg, #4facfe, #00f2fe)', logo: 'https://logo.clearbit.com/bluebottlecoffee.com' },
+  { name: '무신사', cat: '패션 플랫폼', score: 83.7, delta: -1.2, color: 'linear-gradient(135deg, #1a1a2e, #333)', logo: 'https://logo.clearbit.com/musinsa.com' },
+];
+
+function renderRanking() {
+  const list = document.getElementById('rankList');
+  list.innerHTML = rankData.map((b, i) => {
+    const rankClass = i < 3 ? `rank-${i+1}` : '';
+    const deltaClass = b.delta > 0 ? 'delta-up' : b.delta < 0 ? 'delta-down' : 'delta-same';
+    const deltaText = b.delta > 0 ? `+${b.delta.toFixed(1)}` : b.delta < 0 ? `${b.delta.toFixed(1)}` : '—';
+
+    return `
+      <div class="rank-item">
+        <div class="rank-num ${rankClass}">${i + 1}</div>
+        <div class="rank-logo" style="background: ${b.color};"><img src="${b.logo}" alt="${b.name}"></div>
+        <div class="rank-info">
+          <div class="rank-name">${b.name}</div>
+          <div class="rank-cat">${b.cat}</div>
+        </div>
+        <div class="rank-score">
+          <div class="rank-val">${b.score.toFixed(1)}</div>
+          <div class="rank-delta ${deltaClass}">${deltaText}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+renderRanking();
+
+// Hero countdown timer
+function updateCountdown() {
+  const now = new Date();
+  const end = new Date(now);
+  end.setHours(23, 59, 59, 999);
+  const diff = end - now;
+  const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
+  const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
+  const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
+  const el = document.querySelector('.hero-countdown');
+  if (el) el.innerHTML = `<span>남은 시간</span> ${h}<span>:</span>${m}<span>:</span>${s}`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Bookmark toggle
+document.querySelectorAll('.card-bookmark').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    btn.classList.toggle('active');
+  });
+});
+
+// Bottom nav
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
