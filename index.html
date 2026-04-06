@@ -381,15 +381,28 @@
   .popup-tag.soon { background: rgba(100,210,255,0.12); border-color: rgba(100,210,255,0.25); color: var(--teal); }
 
   .popup-hero-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: var(--space-md);
+  }
+  .hero-title-en {
     font-size: var(--text-hero);
     font-weight: 900;
     letter-spacing: -0.03em;
     line-height: 1.05;
-    margin-bottom: var(--space-md);
     background: linear-gradient(135deg, var(--white), var(--gray-muted));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-transform: uppercase;
+  }
+  .hero-title-ko {
+    font-size: clamp(18px, 3vw, 28px);
+    font-weight: 500;
+    color: var(--gray-muted);
+    letter-spacing: -0.01em;
   }
 
   .popup-hero-meta {
@@ -699,19 +712,22 @@
     overflow-x: auto;
     scrollbar-width: none;
     padding-bottom: 4px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .brand-scroll::-webkit-scrollbar { display: none; }
 
   .brand-card {
     flex-shrink: 0;
-    width: 140px;
+    width: 150px;
     background: var(--gray-1);
     border-radius: var(--radius);
     overflow: hidden;
     cursor: pointer;
-    transition: transform var(--transition);
+    transition: transform var(--dur-normal) var(--ease), box-shadow var(--dur-normal) var(--ease);
+    text-align: center;
   }
-  .brand-card:hover { transform: translateY(-4px); }
+  .brand-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
 
   .brand-card-img {
     height: 100px;
@@ -755,6 +771,8 @@
     overflow-x: auto;
     scrollbar-width: none;
     padding-bottom: 4px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .hot-items-scroll::-webkit-scrollbar { display: none; }
 
@@ -762,9 +780,10 @@
     flex-shrink: 0;
     width: 150px;
     cursor: pointer;
-    transition: transform var(--transition);
+    transition: transform var(--dur-normal) var(--ease), box-shadow var(--dur-normal) var(--ease);
+    text-align: center;
   }
-  .hot-item-card:hover { transform: translateY(-3px); }
+  .hot-item-card:hover { transform: translateY(-4px); }
 
   .hot-item-img {
     width: 100%;
@@ -2936,10 +2955,10 @@
 <script>
 // DATA
 const heroPopups = [
-  { initial:'N', bg:'bg-navy', tag:'LIVE', tagClass:'', title:'NIKE AIR MAX\n성수 팝업스토어', location:'성수동 더 서울라이티드', end: Date.now()+3*3600000+25*60000 },
-  { initial:'SS', bg:'bg-orange', tag:'HOT', tagClass:'', title:'SHAKE SHACK\n한강 시즌 메뉴 런칭', location:'한강공원 반포지구', end: Date.now()+1*3600000+45*60000 },
-  { initial:'MK', bg:'bg-teal', tag:'NEW', tagClass:'new', title:'마뗑킴 2025SS\nExclusive Drop', location:'홍대 마뗑킴 플래그십', end: Date.now()+5*3600000+10*60000 },
-  { initial:'RB', bg:'bg-pink', tag:'SOON', tagClass:'soon', title:'RARE BEAUTY\nK-뷰티 콜라보 팝업', location:'강남 더현대 서울', end: Date.now()+8*3600000 },
+  { initial:'N', bg:'bg-navy', tag:'LIVE', tagClass:'', titleEn:'NIKE AIR MAX', titleKo:'성수 팝업스토어', location:'성수동 더 서울라이티드', end: Date.now()+3*3600000+25*60000 },
+  { initial:'SS', bg:'bg-orange', tag:'HOT', tagClass:'', titleEn:'SHAKE SHACK', titleKo:'한강 시즌 메뉴 런칭', location:'한강공원 반포지구', end: Date.now()+1*3600000+45*60000 },
+  { initial:'MK', bg:'bg-teal', tag:'NEW', tagClass:'new', titleEn:'MATIN KIM 2025SS', titleKo:'Exclusive Drop', location:'홍대 마뗑킴 플래그십', end: Date.now()+5*3600000+10*60000 },
+  { initial:'RB', bg:'bg-pink', tag:'SOON', tagClass:'soon', titleEn:'RARE BEAUTY', titleKo:'K-뷰티 콜라보 팝업', location:'강남 더현대 서울', end: Date.now()+8*3600000 },
 ];
 
 const popupCards = [
@@ -3008,7 +3027,7 @@ function renderHero(idx) {
   const tag = document.getElementById('heroTag');
   tag.innerHTML = d.tag === 'LIVE' ? '<span class="live-dot-sm" style="width:6px;height:6px;background:var(--red);border-radius:50%;animation:blink 1.2s infinite;"></span> LIVE NOW' : d.tag;
   tag.className = `popup-tag ${d.tagClass}`;
-  document.getElementById('heroTitle').textContent = d.title;
+  document.getElementById('heroTitle').innerHTML = `<span class="hero-title-en">${d.titleEn}</span><span class="hero-title-ko">${d.titleKo}</span>`;
   document.getElementById('heroLocation').textContent = d.location;
 
   const dotsEl = document.getElementById('heroDots');
